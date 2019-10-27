@@ -1,1 +1,2 @@
-# Learning-C++
+# Learning-Algorithm 
+  Learn C++ algorithm from basic
