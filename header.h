@@ -1,123 +1,105 @@
 #include<iostream>
-#include<stdlib.h>
-#include<stdio.h>
 using namespace std;
-
-
-void traverse(int a[],int len)
+struct node
 {
-    for(int i=0;i<len;i++)
-        cout<<a[i]<<"  ";
-    cout<<"\n";
+	int data;
+	struct node * next;
+}*start;
+
+node * create(int val)
+{
+	struct node * temp;
+	temp=new(struct node);
+	temp->data=val;
+	temp->next=NULL;
+	return temp;
 }
 
-
-void swap(int *a,int *b)
+void insert_val(int val)
 {
-    int temp=*a;
-    *a=*b;
-    *b=temp;
+	struct node * p;
+	p=create(val);
+	if(start==NULL)
+	{
+		start=p;
+		p->next=NULL;
+	}
+	else
+	{
+		p->next=start;
+		start=p;
+	}
+
 }
 
-
-void bubbleSort(int a[],int len)
+void push()
 {
-    int i,j;
-    for(i=0;i<len;i++)
+    int v;
+    struct node *p,*t;
+    cout<<"Enter the value : ";
+    cin>>v;
+    p=create(v);
+    t=head;
+    if(head==NULL)
     {
-        for(j=0;j<len;j++)
-        {
-            if(a[j]>a[j+1])
-                swap(&a[j],&a[j+1]);
-        }
+        head=p;
+        p->next=NULL;
     }
-}
-
-
-void selectionSort(int a[],int len) 
-{ 
-	int i,j,min; 
-	for(i=0;i<len-1;i++) 
-	{ 
-	     min=i; 
-	     for(j=i+1;j<len;j++) 
-            	if(a[j]<a[min]) 
-                min=j; 
-	     swap(&a[min],&a[i]); 
-	} 
-} 
-
-
-void insertionSort(int a[],int len)
-{
-    int i,j;
-    for(i=1;i<len;i++)
+    else
     {
-        for(j=i;j>0;j--)
-            if(a[j]<a[j-1])
-                swap(&a[j],&a[j-1]);
+        p->next=t;
+        head=p;
     }
 }
 
-
-int change(int a[],int low,int high)
+void reverse()
 {
-    int i,j,k=low-1;
-    int pivot=a[high];
-    for(i=low;i<high;i++)
+    struct node *prev,*cur, *frd;
+    prev=NULL;
+    cur=start;
+    frd=NULL;
+    while(cur!=NULL)
     {
-        if(a[i]<=pivot)
-        {
-            k++;
-            swap(&a[k],&a[i]);
-        }
+        frd=cur->next;
+        cur->next=prev;
+        prev=cur;
+        cur=frd;
     }
-    swap(&a[k+1],&a[high]);
-    return k+1;
+    start=prev;
 }
-void quickSort(int a[],int low,int high)
+
+int pop()
 {
-    if(low<high)
+    int f;
+    struct node *p, *t;
+    t=head;
+    if(head==NULL)
     {
-        int pivot = change(a,low,high);
-        quickSort(a,low,pivot-1);
-        quickSort(a,pivot+1,high);
+        cout<<"stack is empty.";
+
     }
-}
-
-
-void combine(int a[], int low, int mid, int high)
-{
-    int b[100];
-    int i = low, j = mid + 1, k = 0;
-    while (i <= mid && j <= high) {
-        if (a[i] <= a[j])
-            b[k++] = a[i++];
-        else
-            b[k++] = a[j++];
-    }
-    while (i <= mid)
-        b[k++] = a[i++];
-
-    while (j <= high)
-        b[k++] = a[j++];
-
-    k--;
-    while (k >= 0) {
-        a[low + k] = b[k];
-        k--;
-    }
-}
-void mergeSort(int a[],int low,int high)
-{
-    //traverse(a,high);
-    if(low<high)
+    else
     {
-        int mid=(low+high)/2;
-        mergeSort(a,0,mid);
-        mergeSort(a,mid+1,high);
-        combine(a,low,mid,high);
+        p=t;
+        head=t->next;
+        f=t->data;
+        delete(t);
     }
+    return f;
 }
+
+void show()
+{
+	struct node * temp;
+	temp=start;
+	while(temp != NULL)
+	{
+		cout<<temp->data<<"\t";
+		temp=temp->next;
+	}
+	cout<<"\n";
+	//cout<<temp->data;
+}
+
 
 
